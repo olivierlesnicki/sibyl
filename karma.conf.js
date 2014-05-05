@@ -14,8 +14,9 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
+            'bower_components/underscore/underscore.js',
             'sibyl.js',
-            'test/*.*.spec.js'
+            'test/*.spec.js'
         ],
 
         // preprocess matching files before serving them to the browser

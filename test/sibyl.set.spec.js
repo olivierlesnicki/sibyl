@@ -67,4 +67,51 @@ describe('Sibyl.Set', function() {
 
     });
 
+    it('does not let duplicates through', function() {
+
+        var set = new Sibyl.Set;
+
+        set.add(1);
+        expect(set.size).toBe(1);
+
+        set.add(1);
+        expect(set.size).toBe(1);
+
+    });
+
+    it('does not let duplicate object through', function() {
+
+        var set = new Sibyl.Set;
+        set.comparator = function(obj) {
+            return obj.name;
+        }
+
+        set.add({
+            name: 'Olivier'
+        });
+
+        expect(set.size).toBe(1);
+
+        set.add({
+            name: 'Olivier'
+        });
+
+        expect(set.size).toBe(1);
+
+    });
+
+    it('returns the intersection of multiple sets', function() {
+
+        var set1 = new Sibyl.Set([1, 2, 3]);
+        var set2 = new Sibyl.Set([1, 2]);
+        var set3 = new Sibyl.Set([1]);
+
+        var set = Sibyl.Set.intersection(set1, set2, set3);
+
+        expect(set.size).toBe(1);
+        expect(set.has(1)).toBe(true);
+
+    });
+
+
 });

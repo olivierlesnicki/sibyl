@@ -24,17 +24,64 @@
 
 }(this, function(root, Sibyl, _) {
 
-
     /**
      * The Set object lets you store unique values of any type,
      * whether primitive values or object references.
      * @param {Array} initialKeys
      */
 
-    function Set(initialKeys) {
+    function Set(initialValues) {
+
         this.size = 0;
         this.values = [];
+
+        if (_.isArray(initialValues)) {
+            for (var i = 0, l = initialValues.length; i < l; i++) {
+                this.add(initialValues[i]);
+            }
+        }
+
+        return this;
+
     }
+
+    /**
+     * Compute the intersection between
+     * an infinite number of sets
+     * @return {Set}
+     */
+    Set.intersection = function() {
+        var set = new Set;
+        var sets = arguments;
+        sets[0].forEach(function(value) {
+            var exists = true;
+            for (var i = 1, l = sets.length; i < l; i++) {
+                if (!sets[i].has(value)) {
+                    exists = false;
+                }
+            }
+            if (exists) {
+                set.add(value);
+            }
+        });
+        return set;
+    };
+
+    /**
+     * Compute the union between
+     * an infinite number of sets
+     * @return {Set}
+     */
+    Set.union = function() {
+        var set = new Set;
+        var sets = arguments;
+        for (var i = 1, l = sets.length; i < l; i++) {
+            sets[i].forEach(function(value) {
+                set.add(value);
+            });
+        }
+        return set;
+    };
 
     /**
      * Appends a new element with the given value
@@ -96,7 +143,7 @@
         var index = -1;
         this.forEach(function(iValue, i) {
             if (this.comparator(iValue) >= this.comparator(value)) {
-                if (value === iValue) {
+                if (_.isEqual(value, iValue)) {
                     index = i;
                 }
                 return false; // return false to break
@@ -154,6 +201,109 @@
      */
     Set.prototype.toArray = function() {
         return this.values;
+    };
+
+    Sibyl = function() {
+        this.users = {};
+        this.items = {};
+    };
+
+    Sibyl.prototype.recordLike = function(user, item) {
+
+        if (!this.users[user]) {
+            this.users[user] = {};
+            this.users[user].likes = new Set;
+            this.users[user].dislikes = new Set;
+        }
+
+        if (!this.items[item]) {
+            this.items[item] = {};
+            this.items[item].likedBy = new Set;
+            this.items[item].dislikedBy = new Set;
+        }
+
+        this.users[user].likes.add(item);
+        this.users[user].dislikes.delete(item);
+
+        this.items[item].likedBy.add(user);
+        this.items[item].dislikedBy.delete(user);
+
+        return this;
+
+    };
+
+    Sibyl.prototype.recordDislike = function(user, item) {
+
+        if (!this.users[user]) {
+            this.users[user] = {};
+            this.users[user].likes = new Set;
+            this.users[user].dislikes = new Set;
+        }
+
+        if (!this.items[item]) {
+            this.items[item] = {};
+            this.items[item].likedBy = new Set;
+            this.items[item].dislikedBy = new Set;
+        }
+
+        this.users[user].dislikes.add(item);
+        this.users[user].likes.delete(item);
+
+        this.items[item].dislikedBy.add(user);
+        this.items[item].likedBy.delete(user);
+
+        return this;
+
+    };
+
+    Sibyl.prototype.getSimilarityBetween = function(firstUserId, secondUserId) {
+
+        var agreements,
+            disagreements,
+            total,
+            firstUser,
+            secondUser;
+
+        firstUser = this.users[firstUserId];
+        secondUser = this.users[secondUserId];
+
+        // number of likes and dislikes in common
+        agreements = Set.intersection(firstUser.likes, secondUser.likes).size;
+        agreements += Set.intersection(firstUser.dislikes, secondUser.dislikes).size;
+
+        // number of likes and dislikes not in common
+        disagreements = Set.intersection(firstUser.likes, secondUser.dislikes).size;
+        disagreements += Set.intersection(firstUser.dislikes, secondUser.likes).size;
+
+        total = Set.union(firstUser.likes, firstUser.dislikes, secondUser.likes, secondUser.dislikes).size;
+
+        return (agreements - disagreements) / total;
+
+    };
+
+    Sibyl.prototype.getPrediction = function(userId, itemId) {
+
+        var hiveMindSum,
+            ratedBy,
+            user,
+            item;
+
+        user = this.users[userId];
+        item = this.items[itemId];
+
+        hiveMindSum = 0.0;
+        ratedBy = item.likedBy.size + item.dislikedBy.size;
+
+        item.likedBy.forEach(function(raterId) {
+            hiveMindSum += this.getSimilarityBetween(userId, raterId);
+        }, this);
+
+        item.dislikedBy.forEach(function(raterId) {
+            hiveMindSum -= this.getSimilarityBetween(userId, raterId);
+        }, this);
+
+        return hiveMindSum / ratedBy;
+
     };
 
     // Current version of the library. Keep in sync with `package.json`.
