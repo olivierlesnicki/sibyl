@@ -1,7 +1,7 @@
 sibyl
 =====
 
-A recommendation engine using likes and dislikes for JavaScript applications.
+A recommendation engine using likes and dislikes for JavaScript applications. This is the library you want if you're building the next Tinder or Stylect.
 
 Install
 -------
