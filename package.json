@@ -1,24 +1,27 @@
 {
-  "name": "sibyl",
-  "version": "0.1.0",
-  "description": "A recommendation engine using likes and dislikes for JavaScript applications.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/olivierlesnicki/sibyl.git"
-  },
-  "author": "Olivier Lesnicki",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/olivierlesnicki/sibyl/issues"
-  },
-  "homepage": "https://github.com/olivierlesnicki/sibyl",
-  "dependencies": {
-    "underscore": "^1.6.0"
-  },
-  "devDependencies": {
-    "karma": "^0.12.14",
-    "karma-jasmine": "^0.1.5",
-    "karma-chrome-launcher": "^0.1.3"
-  }
+    "name": "sibyl",
+    "version": "0.1.0",
+    "description": "A recommendation engine using likes and dislikes for JavaScript applications.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/olivierlesnicki/sibyl.git"
+    },
+    "author": "Olivier Lesnicki",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/olivierlesnicki/sibyl/issues"
+    },
+    "homepage": "https://github.com/olivierlesnicki/sibyl",
+    "dependencies": {
+        "underscore": "^1.6.0"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+    },
+    "devDependencies": {
+        "karma": "^0.12.14",
+        "karma-jasmine": "^0.1.5",
+        "karma-chrome-launcher": "^0.1.3"
+    }
 }
