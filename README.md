@@ -1,4 +1,4 @@
 sibyl
 =====
 
-A recommendation engine using Likes and Dislikes for JavaScript applications.
+A recommendation engine using likes and dislikes for JavaScript applications.
