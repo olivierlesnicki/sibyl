@@ -307,7 +307,7 @@
     };
 
     // Current version of the library. Keep in sync with `package.json`.
-    Sibyl.VERSION = '0.0.1';
+    Sibyl.VERSION = '0.1.0';
 
     Sibyl.Set = Set;
 
