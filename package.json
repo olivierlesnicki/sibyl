@@ -1,0 +1,16 @@
+{
+    "name": "sibyl",
+    "version": "0.1.0",
+    "description": "A recommendation engine using likes and dislikes for JavaScript applications.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/olivierlesnicki/sibyl.git"
+    },
+    "author": "Olivier Lesnicki",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/olivierlesnicki/sibyl/issues"
+    },
+    "homepage": "https://github.com/olivierlesnicki/sibyl"
+}
