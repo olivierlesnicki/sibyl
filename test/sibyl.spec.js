@@ -64,5 +64,29 @@ describe('Sibyl', function() {
 
     });
 
+    it('handles multiple users likes and dislikes', function() {
+
+        var sibyl = new Sibyl;
+
+        sibyl.recordLike('someone', 'The Matrix');
+        sibyl.recordLike('someone', 'The Wolf Of Wall Street');
+        sibyl.recordLike('someone', 'Bad Boys');
+
+        sibyl.recordDislike('someoneelse', 'The Matrix');
+        sibyl.recordDislike('someoneelse', 'The Wolf Of Wall Street');
+        sibyl.recordDislike('someoneelse', 'Bad Boys');
+
+        sibyl.recordLike('me', 'The Matrix');
+
+        expect(sibyl.getSimilarityBetween('me', 'someone')).toBe(1 / 3);
+        expect(sibyl.getSimilarityBetween('me', 'someoneelse')).toBe(-1 / 3);
+        expect(sibyl.getSimilarityBetween('someone', 'someoneelse')).toBe(-1);
+
+        expect(sibyl.getPrediction('me', 'The Wolf Of Wall Street')).toBe(1 / 3);
+
+        expect(sibyl.getSuggestion('me')[0]).toBe('The Wolf Of Wall Street');
+
+    })
+
 
 });

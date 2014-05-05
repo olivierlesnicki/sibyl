@@ -203,6 +203,9 @@
         return this.values;
     };
 
+    /**
+     * The Delphic Sibyl
+     */
     Sibyl = function() {
         this.users = {};
         this.items = {};
@@ -303,6 +306,33 @@
         }, this);
 
         return hiveMindSum / ratedBy;
+
+    };
+
+    Sibyl.prototype.getSuggestion = function(userId) {
+
+        var set,
+            user;
+
+        user = this.users[userId];
+
+        set = new Set;
+        set.comparator = function(item) {
+            return item.prediction;
+        }
+
+        for (var itemId in this.items) {
+            // filter out items the user has already rated
+            if (!user.likes.has(itemId) && !user.dislikes.has(itemId)) {
+                set.add({
+                    id: itemId,
+                    prediction: this.getPrediction(userId, itemId)
+                });
+            }
+        }
+
+        // return an ordered list of suggestions
+        return _.flatten(_.pluck(set.toArray(), 'id'));
 
     };
 
