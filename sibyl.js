@@ -326,7 +326,7 @@
             // filter out items the user has already rated
             if (!user.likes.has(itemId) && !user.dislikes.has(itemId)) {
                 var prediction = this.getPrediction(userId, itemId);
-                if (prediction > tolerance) {
+                if (prediction >= tolerance) {
                     set.add({
                         id: itemId,
                         prediction:
