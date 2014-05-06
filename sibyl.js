@@ -329,7 +329,7 @@
                 if (prediction >= tolerance) {
                     set.add({
                         id: itemId,
-                        prediction:
+                        prediction: prediction
                     });
                 }
             }
