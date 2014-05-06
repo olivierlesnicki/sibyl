@@ -1,6 +1,6 @@
 {
     "name": "sibyl",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A recommendation engine using likes and dislikes for JavaScript applications.",
     "main": "index.js",
     "repository": {
