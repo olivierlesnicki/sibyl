@@ -16,8 +16,12 @@ It can also be installed through npm
 bower install sibyl
 ```
 
-Usage
------
+Quick Overview
+--------------
+
+Here's a brief introduction to Sibyl's key concepts and syntax.
+
+Example
 
 ```javascript
 

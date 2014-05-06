@@ -309,11 +309,12 @@
 
     };
 
-    Sibyl.prototype.getSuggestion = function(userId) {
+    Sibyl.prototype.getSuggestion = function(userId, tolerance) {
 
         var set,
             user;
 
+        tolerance = tolerance || 0;
         user = this.users[userId];
 
         set = new Set;
@@ -324,10 +325,13 @@
         for (var itemId in this.items) {
             // filter out items the user has already rated
             if (!user.likes.has(itemId) && !user.dislikes.has(itemId)) {
-                set.add({
-                    id: itemId,
-                    prediction: this.getPrediction(userId, itemId)
-                });
+                var prediction = this.getPrediction(userId, itemId);
+                if (prediction > tolerance) {
+                    set.add({
+                        id: itemId,
+                        prediction:
+                    });
+                }
             }
         }
 
